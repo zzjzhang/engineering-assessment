@@ -1,4 +1,4 @@
-package com.interview;
+package interview;
 
 public class FoodTruck {
 

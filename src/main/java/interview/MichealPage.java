@@ -1,4 +1,4 @@
-package com.interview;
+package interview;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -30,17 +30,17 @@ public class MichealPage {
         }
     }
 
-    public static void main(String[] args) {
+    public void run(String[] args) {
         String foodDataPath = args[0];
         List<FoodTruck> foodTrucks = new ArrayList<>();
         try {
-            new MichealPage().initFoodTrucks(foodDataPath, foodTrucks);
+            initFoodTrucks(foodDataPath, foodTrucks);
         } catch (Exception e) {
             e.printStackTrace();
         }
         BigDecimal latitude = new BigDecimal(args[1]);
         BigDecimal longitude = new BigDecimal(args[2]);
-        FoodTruck foodTruck = new MichealPage().getFoodTruckInMinDistance(latitude, longitude, foodTrucks);
+        FoodTruck foodTruck = getFoodTruckInMinDistance(latitude, longitude, foodTrucks);
         System.out.println("/* The food truck in min distance listed as below: */");
         System.out.println(foodTruck.getAddress());
         System.out.println(foodTruck.getStatus());
