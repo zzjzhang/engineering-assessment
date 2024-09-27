@@ -42,7 +42,8 @@ public class MichealPage {
         BigDecimal longitude = new BigDecimal(args[2]);
         FoodTruck foodTruck = getFoodTruckInMinDistance(latitude, longitude, foodTrucks);
         System.out.println("/* The food truck with min distance listed as below: */");
-        System.out.println("Address: " + foodTruck.getAddress());
+        System.out.println("locationid: " + foodTruck.getLocationid());
+        System.out.println("LocationDescription: " + foodTruck.getLocationDescription());
         System.out.println("Status: " + foodTruck.getStatus());
     }
 
@@ -70,14 +71,14 @@ public class MichealPage {
     }
 
     private BigDecimal getDistance(BigDecimal a, BigDecimal b) {
-        if (a.compareTo(BigDecimal.ZERO) > 0 && b.compareTo(BigDecimal.ZERO) > 0) {
+        if (a.compareTo(BigDecimal.ZERO) >= 0 && b.compareTo(BigDecimal.ZERO) >= 0) {
             return a.subtract(b).abs();
         }
-        if (a.compareTo(BigDecimal.ZERO) < 0 && b.compareTo(BigDecimal.ZERO) < 0) {
+        if (a.compareTo(BigDecimal.ZERO) <= 0 && b.compareTo(BigDecimal.ZERO) <= 0) {
             return a.subtract(b).abs();
         }
-        if ((a.compareTo(BigDecimal.ZERO) > 0 && b.compareTo(BigDecimal.ZERO) < 0) ||
-                (a.compareTo(BigDecimal.ZERO) < 0 && b.compareTo(BigDecimal.ZERO) > 0)) {
+        if ((a.compareTo(BigDecimal.ZERO) >= 0 && b.compareTo(BigDecimal.ZERO) <= 0) ||
+                (a.compareTo(BigDecimal.ZERO) <= 0 && b.compareTo(BigDecimal.ZERO) >= 0)) {
             return a.abs().add(b.abs());
         }
         return BigDecimal.ZERO;
