@@ -41,9 +41,9 @@ public class MichealPage {
         BigDecimal latitude = new BigDecimal(args[1]);
         BigDecimal longitude = new BigDecimal(args[2]);
         FoodTruck foodTruck = getFoodTruckInMinDistance(latitude, longitude, foodTrucks);
-        System.out.println("/* The food truck in min distance listed as below: */");
-        System.out.println(foodTruck.getAddress());
-        System.out.println(foodTruck.getStatus());
+        System.out.println("/* The food truck with min distance listed as below: */");
+        System.out.println("Address: " + foodTruck.getAddress());
+        System.out.println("Status: " + foodTruck.getStatus());
     }
 
 
