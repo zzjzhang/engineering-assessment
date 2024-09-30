@@ -4,6 +4,7 @@ import com.interview.entity.FoodTruck;
 import com.interview.request.FoodRequest;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -22,6 +23,7 @@ public class FoodTruckService {
 
     private static final URL FOOD_DATA_PATH = FoodTruckService.class.getClassLoader().getResource("Mobile_Food_Facility_Permit.csv");
     private static final String FIELDS_STR = "locationid,Applicant,FacilityType,cnn,LocationDescription,Address,blocklot,block,lot,permit,Status,FoodItems,X,Y,Latitude,Longitude,Schedule,dayshours,NOISent,Approved,Received,PriorPermit,ExpirationDate,Location,Fire Prevention Districts,Police Districts,Supervisor Districts,Zip Codes,Neighborhoods (old)";
+    private static final List<FoodTruck> FOOD_TRUCKS = new ArrayList<>();
     private static final Map<Integer, String> FIELDS_MAP = new HashMap<>();
 
     static {
@@ -37,16 +39,19 @@ public class FoodTruckService {
         }
     }
 
-    public FoodTruck getInMinDistance(FoodRequest foodRequest) {
-        List<FoodTruck> foodTrucks = new ArrayList<>();
+    @PostConstruct
+    public void init() {
         try {
-            initFoodTrucks(FOOD_DATA_PATH.getPath(), foodTrucks);
+            initFoodTrucks(FOOD_DATA_PATH.getPath(), FOOD_TRUCKS);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public FoodTruck getInMinDistance(FoodRequest foodRequest) {
         BigDecimal latitude = new BigDecimal(foodRequest.getLatitude());
         BigDecimal longitude = new BigDecimal(foodRequest.getLongitude());
-        FoodTruck foodTruck = getFoodTruckInMinDistance(latitude, longitude, foodTrucks);
+        FoodTruck foodTruck = getFoodTruckInMinDistance(latitude, longitude, FOOD_TRUCKS);
         System.out.println("/* The food truck with min distance listed as below: */");
         System.out.println("locationid: " + foodTruck.getLocationid());
         System.out.println("LocationDescription: " + foodTruck.getLocationDescription());
