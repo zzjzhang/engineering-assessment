@@ -1,8 +1,13 @@
-package interview;
+package com.interview.service;
+
+import com.interview.entity.FoodTruck;
+import com.interview.request.FoodRequest;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,8 +17,10 @@ import java.util.Map;
 
 
 
-public class MichealPage {
+@Service
+public class FoodTruckService {
 
+    private static final URL FOOD_DATA_PATH = FoodTruckService.class.getClassLoader().getResource("Mobile_Food_Facility_Permit.csv");
     private static final String FIELDS_STR = "locationid,Applicant,FacilityType,cnn,LocationDescription,Address,blocklot,block,lot,permit,Status,FoodItems,X,Y,Latitude,Longitude,Schedule,dayshours,NOISent,Approved,Received,PriorPermit,ExpirationDate,Location,Fire Prevention Districts,Police Districts,Supervisor Districts,Zip Codes,Neighborhoods (old)";
     private static final Map<Integer, String> FIELDS_MAP = new HashMap<>();
 
@@ -30,21 +37,21 @@ public class MichealPage {
         }
     }
 
-    public void run(String[] args) {
-        String foodDataPath = args[0];
+    public FoodTruck getInMinDistance(FoodRequest foodRequest) {
         List<FoodTruck> foodTrucks = new ArrayList<>();
         try {
-            initFoodTrucks(foodDataPath, foodTrucks);
+            initFoodTrucks(FOOD_DATA_PATH.getPath(), foodTrucks);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        BigDecimal latitude = new BigDecimal(args[1]);
-        BigDecimal longitude = new BigDecimal(args[2]);
+        BigDecimal latitude = new BigDecimal(foodRequest.getLatitude());
+        BigDecimal longitude = new BigDecimal(foodRequest.getLongitude());
         FoodTruck foodTruck = getFoodTruckInMinDistance(latitude, longitude, foodTrucks);
         System.out.println("/* The food truck with min distance listed as below: */");
         System.out.println("locationid: " + foodTruck.getLocationid());
         System.out.println("LocationDescription: " + foodTruck.getLocationDescription());
         System.out.println("Status: " + foodTruck.getStatus());
+        return foodTruck;
     }
 
 

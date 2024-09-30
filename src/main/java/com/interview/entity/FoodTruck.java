@@ -1,4 +1,4 @@
-package interview;
+package com.interview.entity;
 
 public class FoodTruck {
 
