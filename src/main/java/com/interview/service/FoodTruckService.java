@@ -3,6 +3,7 @@ package com.interview.service;
 import com.interview.entity.FoodTruck;
 import com.interview.request.FoodRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
@@ -11,11 +12,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 
 
 @Service
@@ -61,6 +58,9 @@ public class FoodTruckService {
 
 
     private FoodTruck getFoodTruckInMinDistance(BigDecimal latitude, BigDecimal longitude, List<FoodTruck> foodTrucks) {
+        if (CollectionUtils.isEmpty(foodTrucks)) {
+            return null;
+        }
         double minDistance = -1;
         FoodTruck ft = null;
         for (FoodTruck foodTruck : foodTrucks) {
